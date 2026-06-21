@@ -68,10 +68,12 @@ $maxPage = ceil($total / $limit);
 
                 <!-- 게시글 목록 (10개씩 p1~p5) -->
                 <div class="board__list">
-                    <?php foreach ($posts as $post) { ?>
+                    <?php foreach ($posts as $post) {
+                        $likeCount = db::fetch("select count(*) cnt from likes where post_idx = '$post->idx'")->cnt;
+                        ?>
                         <div class="post p5"><span class="post__rank"><?= $post->idx ?></span><a href="/boardDetail/<?= $post->idx ?>" class="post__title"><?= $post->title ?></a><span class="post__date"><?= $post->date ?></span><span class="post__like"><svg viewBox="0 0 24 24">
                                     <path d="M12 21s-7.5-4.6-10-9.2C.3 8.5 1.9 5 5.2 5c2 0 3.3 1.1 4 2.2C9.8 6.1 11.2 5 13.1 5c3.3 0 4.9 3.5 3.2 6.8C19.5 16.4 12 21 12 21z" />
-                                </svg>좋아용</span></div>
+                                </svg><?= $likeCount ?></span></div>
                     <?php } ?>
                 </div>
 
