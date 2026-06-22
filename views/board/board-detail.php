@@ -3,6 +3,7 @@ $user = ss();
 $post = db::fetch("select p.*, u.profile, u.id as user_id from posts p inner join users u on p.user_idx = u.idx where p.idx = '$idx'");
 $likeCount = db::fetch("select count(*) cnt from likes where post_idx = '$idx'")->cnt;
 $comments = db::fetchAll("select c.*, u.id, u.profile from comments c inner join users u on c.user_idx = u.idx where c.post_idx = '$idx' and c.user_idx = '$user->idx'");
+$photos = explode(",", $post->photo);
 ?>
 
 <main class="page">
@@ -26,6 +27,11 @@ $comments = db::fetchAll("select c.*, u.id, u.profile from comments c inner join
 
         <!-- 내용 -->
         <div class="article__body">
+          <?php if (isset($photos)) {
+            foreach ($photos as $p) { ?>
+              <img src="<?= $p ?>">
+          <?php }
+          } ?>
           <?= $post->detail ?>
         </div>
 

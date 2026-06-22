@@ -61,13 +61,22 @@ get("/logout", function () {
 });
 post("/addPost", function () {
     extract($_POST);
+    $images = [];
+    $user = ss();
     $file = $_FILES["file"];
-    $path = "/asset/posts" . $file["name"];
-    if (move_uploaded_file($file["tmp_name"], ".$path") && isset($file["name"])) {
-        db::exec("insert into posts (title, detail, category, photo) values ('$title', '$detail', '$category', '$path')");
+    foreach ($file["tmp_name"] as $i => $tmp) {
+        if (!$tmp) continue;
+        $path = "/asset/posts/" . $file["name"][$i];
+        move_uploaded_file($tmp, ".$path");
+        $images[] = $path;
+    }
+    $image = implode(",", $images);
+
+    if ($image) {
+        db::exec("insert into posts (title, detail, category, photo, user_idx) values ('$title', '$detail', '$category', '$image', '$user->idx')");
         move("/board", "게시글 추가 성공");
     } else {
-        db::exec("insert into posts (title, detail, category) values ('$title', '$detail', '$category')");
+        db::exec("insert into posts (title, detail, user_idx) values ('$title', '$detail', '$category', '$user->idx')");
         move("/board", "게시글 추가 성공");
     }
 });
@@ -75,7 +84,7 @@ post("/like", function () {
     extract($_POST);
     $user = ss();
     $like = db::fetch("select * from likes where post_idx = '$idx' and user_idx = '$user->idx'");
-    if($like) {
+    if ($like) {
         db::exec("delete from likes where idx = '$like->idx'");
     } else {
         db::exec("insert into likes (user_idx, post_idx) values ('$user->idx', '$idx')");
@@ -84,7 +93,7 @@ post("/like", function () {
     echo json_encode(["count" => $count]);
     exit;
 });
-post("/comment", function() {
+post("/comment", function () {
     extract($_POST);
     $user = ss();
     db::exec("insert into comments (post_idx, user_idx, content) values ('$post_idx', '$user->idx', '$content')");
