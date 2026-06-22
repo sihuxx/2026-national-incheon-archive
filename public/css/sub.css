@@ -215,16 +215,16 @@
 .comment__text { margin-top: 6px; color: var(--gray-700); font-size: 15px; line-height: 1.6; }
 
 .popup { position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; justify-content:center; align-items:center; z-index:1000; }
-.defualt-form { width:420px; background:#fff; border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:16px; box-shadow:0 10px 30px rgba(0,0,0,.15); }
-.defualt-form .form-header { display:flex; justify-content:space-between; align-items:center; }
-.defualt-form .form-header h3 { margin:0; color:var(--green-700); }
-.defualt-form .close-btn { background:none; border:none; font-size:20px; cursor:pointer; }
-.defualt-form input,
-.defualt-form textarea,
-.defualt-form select { width:100%; padding:12px; border:1px solid #ddd; border-radius:10px; font-size:14px; }
-.defualt-form textarea { height:120px; resize:none; }
-.defualt-form .submit-btn { padding:12px; border:none; border-radius:10px; background:var(--green-500); color:#fff; font-weight:bold; cursor:pointer; }
-.defualt-form .submit-btn:hover { background:var(--green-600); }
+.default-form { width:420px; background:#fff; border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:16px; box-shadow:0 10px 30px rgba(0,0,0,.15); }
+.default-form .form-header { display:flex; justify-content:space-between; align-items:center; }
+.default-form .form-header h3 { margin:0; color:var(--green-700); }
+.default-form .close-btn { background:none; border:none; font-size:20px; cursor:pointer; }
+.default-form input,
+.default-form textarea,
+.default-form select { width:100%; padding:12px; border:1px solid #ddd; border-radius:10px; font-size:14px; }
+.default-form textarea { height:120px; resize:none; }
+.default-form .submit-btn { padding:12px; border:none; border-radius:10px; background:var(--green-500); color:#fff; font-weight:bold; cursor:pointer; }
+.default-form .submit-btn:hover { background:var(--green-600); }
 
 .search-box {display: flex;gap: 10px;}
 .search-box input {width: 300px;padding: 10px;border: 1px solid var(--gray-200);border-radius: 10x;border-radius: 10px;}
