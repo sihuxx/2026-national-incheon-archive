@@ -201,3 +201,18 @@ post("/addInquire", function () {
         move("/inquire", "문의사항 등록 성공");
     }
 });
+post("/addAnswer", function() {
+    extract($_POST);
+    db::exec("update inquires set answer = '$answer' where idx = '$idx'");
+    move("/inquire/$idx", "답변 추가 성공");
+});
+post("/addInquireComment", function() {
+    extract($_POST);
+    $user = ss();
+    if($user) {
+        db::exec("insert into inquire_comments (content, user_idx, inquire_idx) values ('$content', '$user->idx', '$inquire_idx')");
+        move("/inquire/$inquire_idx", "댓글 추가 성공");
+    } else {
+        move("/", "로그인 후 이용 가능한 기능입니다");
+    }
+});

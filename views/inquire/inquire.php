@@ -6,7 +6,10 @@ $start = ($page - 1) * $limit;
 $total = db::fetch("select count(*) cnt from inquires")->cnt;
 $maxPage = ceil($total / $limit);
 
-$inquires = db::fetchAll("select * from inquires")
+$inquires = db::fetchAll("select * from inquires where public = 1 order by date desc");
+if($user->is_admin == 1) {
+    $inquires = db::fetchAll("select * from inquires order by date desc");
+}
 ?>
 
 <main class="page">
@@ -37,7 +40,7 @@ $inquires = db::fetchAll("select * from inquires")
                     <?php foreach ($inquires as $inquire) {
                         $likeCount = db::fetch("select count(*) cnt from likes where post_idx = '$inquire->idx'")->cnt;
                     ?>
-                        <div class="post inquire"><span class="post__rank"><?= $inquire->idx ?></span><a href="/inquire/<?= $inquire->idx ?>" class="post__title"><?= $inquire->title ?></a><span class="post__date"><?= $inquire->date ?></span>
+                        <div class="post inquire"><span class="post__rank"><?= $inquire->idx ?></span><a href="/inquire/<?= $inquire->idx ?>" class="post__title"><?= $inquire->public == 0 ? "<span class='public-tag'>비공개</span>" : "" ?><?= $inquire->answer != null ? "<span class='answer-tag'>답변 완료</span>" : "" ?><?= $inquire->title ?></a><span class="post__date"><?= $inquire->date ?></span>
                         </div>
                     <?php } ?>
                 </div>

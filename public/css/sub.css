@@ -257,7 +257,16 @@
     .my-opinion * {color: #fff;}
 
 .popup.hidden {display: none !important;}
-.opinions-list {position: relative;border-radius: 20px; display: flex;flex-direction: column;padding: 20px;gap: 20px; height: 500px;overflow-y: scroll;background-color: var(--green-100);}
+.opinions-list {overflow-x: hidden; position: relative;border-radius: 20px; display: flex;flex-direction: column;padding: 20px;gap: 20px; height: 500px;overflow-y: scroll;background-color: var(--green-100);}
 .opinions-list .opinion {padding: 15px;background-color: #fff; width: 450px !important; border-radius: 20px;}
 /* .opinions-list .my-opinion {background-color: var(--green-600);color: white;} */
 .vote-tag {padding: 5px 10px;border-radius: 10px;background-color: green;color: white;font-weight: bold;font-size: 12px;}
+.public-tag {margin-right: 10px;font-size: 12px;font-weight: bold;background-color: var(--gray-400);color: white;padding: 5px 10px;border-radius: 30px;}
+.answer-tag, .admin-tag {margin-right: 10px;font-size: 12px;font-weight: bold;background-color: var(--green-500);color: white;padding: 5px 10px;border-radius: 30px;}
+.admin-answer {margin-top: 40px;}
+.admin-answer textarea { width:100%; padding:12px; border:1px solid #ddd; border-radius:10px; font-size:14px; }
+.admin-answer button  { padding:12px; border:none; border-radius:10px; background:var(--green-500); color:#fff; font-weight:bold; cursor:pointer; }
+.answer-content {display: flex;flex-direction: column;gap: 10px; margin-top: 40px;width:100%; padding:12px; border:1px solid #ddd; border-radius:10px; font-size:16px; }
+.comment-form button:disabled {background-color: var(--gray-400) !important;pointer-events: none;}
+.answer-content h3 {font-size: 14px;background-color: var(--green-500);color: white;padding: 5px 10px;border-radius: 30px;font-weight: bold;width: fit-content;}
+.inquire-comment-list {display: flex;flex-direction: column;}

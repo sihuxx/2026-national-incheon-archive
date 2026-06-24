@@ -1,6 +1,7 @@
 <?php
 $user = ss();
-$inquire = db::fetch("select i.*, u.id, u.profile from inquires i inner join users u on i.user_idx = u.idx where i.idx = '$idx' and i.public = 1 order by date desc");
+$inquire = db::fetch("select i.*, u.id, u.profile from inquires i inner join users u on i.user_idx = u.idx where i.idx = '$idx'");
+$comments = db::fetchAll("select i.*, u.id, u.profile, u.is_admin from inquire_comments i inner join users u on i.user_idx = u.idx where i.inquire_idx = '$idx' order by u.is_admin desc, i.date desc");
 ?>
 
 <main class="page">
@@ -26,38 +27,46 @@ $inquire = db::fetch("select i.*, u.id, u.profile from inquires i inner join use
         <div class="article__body">
           <img oncontextmenu="return false" alt="<?= $inquire->img ?>" src="<?= $inquire->img ?>">
           <?= $inquire->content ?>
+          <?php if ($user->is_admin == 1 && $inquire->answer == null) { ?>
+            <form action="/addAnswer" method="post" class="admin-answer">
+              <input type="hidden" name="idx" value="<?= $inquire->idx ?>">
+              <textarea name="answer" placeholder="답변을 남겨주세요"></textarea>
+              <button>답변 등록</button>
+            </form>
+          <?php } else { ?>
+            <div class="answer-content">
+              <h3>관리자의 답변</h3>
+              <div class="content"><?= $inquire->answer ?></div>
+            </div>
+          <?php } ?>
         </div>
       </article>
 
       <section class="comments">
         <!-- 댓글 입력 폼 + 등록 버튼 -->
-        <form method="post" action="/comment" class="comment-form">
-          <input type="hidden" name="post_idx" value="<?= $idx ?>">
-          <input type="text" name="content" placeholder="문의사항 답변을 남겨주세여" aria-label="댓글 입력">
-          <button>등록</button>
+        <form method="post" action="/addInquireComment" class="comment-form">
+          <input type="hidden" name="inquire_idx" value="<?= $idx ?>">
+          <input type="text" name="content" class="comment-input" placeholder="따뜻한 댓글을 남겨주세요 :)" aria-label="댓글 입력">
+          <button <?= $inquire->public == 0 ? "disabled" : "" ?>>등록</button>
         </form>
-            <?php foreach ($comments as $comment) {
-          $commentLikeCount = db::fetch("select count(*) cnt from comments_likes where comment_idx = '$comment->idx'")->cnt;
-        ?>
-          <div class="comment">
-            <img class="comment__avatar" src="<?= $comment->profile ?>"
-              alt="송도주민 프로필 사진" title="송도주민">
-            <div>
-              <div class="comment__head">
-                <span class="comment__id"><?= $comment->id ?></span>
-                <span class="comment__date"><?= $comment->date ?></span>
-              </div>
-              <div class="comment-content">
-                <p class="comment__text"><?= $comment->content ?></p>
-                <div class="like-btn comment-like-btn <?= db::fetch("select * from comments_likes where comment_idx = '$comment->idx' and user_idx = '$user->idx'") ? 'active' : "" ?>" data-idx="<?= $comment->idx ?>">
-                  <svg viewBox="0 0 24 24" width="24" height="24">
-                    <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" />
-                  </svg>
-                  <span class="comment-like-count"><?= $commentLikeCount ?></span>
+        <div class="inquire-comment-list">
+          <?php foreach ($comments as $comment) {
+            ?>
+            <div class="comment">
+              <img class="comment__avatar" src="<?= $comment->profile ?>"
+                alt="송도주민 프로필 사진" title="송도주민">
+              <div>
+                <div class="comment__head">
+                  <span class="comment__id"><?= $comment->is_admin == 1 ? "<span class='admin-tag'>관리자</span>" : "" ?><?= $comment->id ?></span>
+                  <span class="comment__date"><?= $comment->date ?></span>
+                </div>
+                <div class="comment-content">
+                  <p class="comment__text"><?= $comment->content ?></p>
                 </div>
               </div>
             </div>
-          <?php } ?>
+            <?php } ?>
+            </div>
       </section>
 
       <!-- 목록으로 -->
@@ -68,3 +77,10 @@ $inquire = db::fetch("select i.*, u.id, u.profile from inquires i inner join use
     </div>
   </section>
 </main>
+
+<script src="/js/lib.js"></script>
+<script>
+  $(".comment-input").onkeydown = e => {
+    if (e.key === "Enter") e.preventDefault();
+  }
+</script>
