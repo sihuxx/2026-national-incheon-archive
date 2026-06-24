@@ -32,7 +32,7 @@
       </a>
       <nav>
         <ul class="gnb">
-          <li><a href="/ask">문의사항</a></li>
+          <li><a href="/inquire">문의사항</a></li>
           <li><a href="/board">게시판</a>
             <ul class="submenu">
               <li><a href="/bestBoard">베스트 게시판</a></li>

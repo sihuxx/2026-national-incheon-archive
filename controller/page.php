@@ -27,8 +27,11 @@ get("/register", function () {
 get("/login", function () {
     views('auth/login');
 });
-get("/ask", function() {
-    views("ask");
+get("/inquire", function () {
+    views("inquire/inquire");
+});
+get("/inquire/{idx}", function($idx) {
+    views("inquire/inquire-detail", ["idx" => $idx]);
 });
 post("/signup", function () {
     extract($_POST);
@@ -183,5 +186,18 @@ post("/addOpinion", function () {
     move("/debate/$debate_idx", "의견이 작성되었습니다");
 });
 get("/api/opinions/{debateIdx}", function ($debateIdx) {
-    echo json_encode(db::fetchAll("select do.*, u.id, u.profile, o.type from debate_opinions do left join users u on u.idx = do.user_idx inner join opinions o on o.user_idx = u.idx and o.debate_idx = '$debateIdx' where do.debate_idx = '$debateIdx'"));
+    echo json_encode(db::fetchAll("select do.*, u.id, u.profile, u.idx user_idx, o.type from debate_opinions do left join users u on u.idx = do.user_idx inner join opinions o on o.user_idx = u.idx and o.debate_idx = '$debateIdx' where do.debate_idx = '$debateIdx'"));
+});
+post("/addInquire", function () {
+    extract($_POST);
+    $user = ss();
+    $file = $_FILES["file"];
+    $path = "/asset/inquires/" . $file["name"];
+    if (isset($file["tmp_name"]) && move_uploaded_file($file["tmp_name"], ".$path")) {
+        db::exec("insert into inquires(title, content, img, public, user_idx) values('$title', '$content', '$path', '$public', '$user->idx')");
+        move("/inquire", "문의사항 등록 성공");
+    } else {
+        db::exec("insert into inquires(title, content, public, user_idx) values('$title', '$content', '$public', '$user->idx')");
+        move("/inquire", "문의사항 등록 성공");
+    }
 });

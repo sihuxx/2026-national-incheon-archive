@@ -23,20 +23,7 @@ $opinions = db::fetchAll("select o.*, u.id, u.profile from debate_opinions o inn
         <h1 class="article__title"><?= $debate->title ?></h1>
 
         <div class="article__body">
-          <!-- <div class="opinions-box">
-            <a href="/agree" class="agree opinion">찬성</a>
-            <a href="/oppose" class="oppose opinion">반대</a>
-          </div> -->
         </div>
-
-        <!-- <div class="article__like">
-          <button class="like-btn" type="button">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 21s-7.5-4.6-10-9.2C.3 8.5 1.9 5 5.2 5c2 0 3.3 1.1 4 2.2C9.8 6.1 11.2 5 13.1 5c3.3 0 4.9 3.5 3.2 6.8C19.5 16.4 12 21 12 21z" />
-            </svg>
-            공감 <strong>318</strong>
-          </button>
-        </div> -->
       </article>
 
       <!-- 토론 의견 영역 (댓글 = 등록일 내림차순 + 입력폼/등록버튼) -->
@@ -97,10 +84,10 @@ $opinions = db::fetchAll("select o.*, u.id, u.profile from debate_opinions o inn
   const render = async () => {
     const idx = <?= json_decode($idx) ?>;
     const data = await fetch(`/api/opinions/${idx}`).then(res => res.json());
-    let innerHTML = '';
+    const user_idx = <?= $user->idx ?>;
 
       opinionList.innerHTML = data.map((item) => {
-        return ` <div class="comment opinion">
+        return ` <div class="comment opinion ${item.user_idx == user_idx ? "my-opinion" : ""}">
           <img class="comment__avatar" src="${item.profile}">
           <div>
             <div class="comment__head">

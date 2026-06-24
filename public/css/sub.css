@@ -53,6 +53,7 @@
   font-size: 13px; font-weight: 700; color: var(--gray-400);
   letter-spacing: .04em;
 }
+.inquire__head { grid-template-columns: 80px 1fr 200px ; }
 .board__list { display: flex; flex-direction: column; }
 
 .post {
@@ -62,6 +63,7 @@
   border-bottom: 1px solid var(--gray-200);
   transition: background var(--t-fast);
 }
+.inquire {grid-template-columns: 80px 1fr 200px;}
 .post:hover { background: var(--green-100); }
 .post__rank { font-weight: 800; color: var(--green-300); font-size: 17px; text-align: center; }
 .post__title {
@@ -236,7 +238,7 @@
 .search-box input {width: 300px;padding: 10px;border: 1px solid var(--gray-200);border-radius: 10x;border-radius: 10px;}
 .search-box button {padding: 10px 15px;border-radius: 10px;background-color: var(--green-500);color: #fff;font-weight: bold;}
 
-.post-add-btn {background-color: var(--green-700);color: white;font-weight: bold;padding: 10px 15px;border-radius: 10px;}
+.post-add-btn {margin-bottom: 20px;background-color: var(--green-700);color: white;font-weight: bold;padding: 10px 15px;border-radius: 10px;}
 .category-select {padding: 10px 15px;border-radius: 30px;border: 1px solid var(--gray-200);}
 .post .admin-box button {padding: 5px 10px;background-color: #f85151;border-radius: 30px; color: white;font-weight: bold;}
 
@@ -250,6 +252,9 @@
 &:hover { background-color: #0ba254;color: white; }}
 .opinions-box .oppose {color: #f03f3f;
 &:hover { background-color: #f03f3f;color: white; }}
+.my-opinion {    flex-direction: row-reverse;
+    align-self: flex-end;background-color: var(--green-500) !important;color: white;}
+    .my-opinion * {color: #fff;}
 
 .popup.hidden {display: none !important;}
 .opinions-list {position: relative;border-radius: 20px; display: flex;flex-direction: column;padding: 20px;gap: 20px; height: 500px;overflow-y: scroll;background-color: var(--green-100);}

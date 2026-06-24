@@ -68,7 +68,7 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
                 </div>
 
                 <!-- 리스트 헤더 -->
-                <div class="board__head">
+                <div class="board__head ">
                     <span style="text-align:center;">번호</span>
                     <span>제목</span>
                     <span>등록일</span>
