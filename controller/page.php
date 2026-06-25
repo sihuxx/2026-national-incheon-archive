@@ -36,6 +36,12 @@ get("/inquire/{idx}", function ($idx) {
 get("/profile/{idx}", function ($idx) {
     views("profile", ["idx" => $idx]);
 });
+get("/userAdmin", function() {
+    views("admin/user");
+});
+get("/inquireAnswer", function() {
+    views("admin/inquire");
+});
 post("/signup", function () {
     extract($_POST);
     $file = $_FILES["file"];
@@ -95,9 +101,7 @@ post("/addPost", function () {
 post('/deletePost', function () {
     extract($_POST);
     db::exec("delete from posts where idx = '$idx'");
-    db::exec("delete from comments where post_idx = '$idx'");
-    db::exec("delete from likes where post_idx = '$idx'");
-    move("/", "게시글이 추가되었습니다");
+    move("/", "게시글이 삭제 되었습니다");
 });
 post("/like", function () {
     extract($_POST);
@@ -265,4 +269,14 @@ post("/blockCancel", function () {
     $target_user = db::fetch("select id from users where idx = '$target_user_idx'")->id;
     db::exec("delete from blocks where user_idx = '$user->idx' and target_user_idx = '$target_user_idx'");
     move("/profile/$target_user_idx", "$target_user 님의 차단이 해제되었습니다.");
+});
+post("/userUpgrade", function() {
+    extract($_POST);
+    db::exec("update users set type = '$type' where idx = '$user_idx'");
+    move("/userAdmin", "권한 변경 성공");
+});
+post("/userDelete", function() {
+    extract($_POST);
+    db::exec("delete from users where idx = '$user_idx'");
+    move("/userAdmin", "유저 탈퇴 처리 성공");
 });

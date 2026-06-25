@@ -7,7 +7,7 @@ $total = db::fetch("select count(*) cnt from inquires")->cnt;
 $maxPage = ceil($total / $limit);
 
 $inquires = db::fetchAll("select * from inquires where public = 1 order by date desc");
-if($user->is_admin == 1) {
+if($user->type == 'admin') {
     $inquires = db::fetchAll("select * from inquires order by date desc");
 }
 ?>

@@ -58,7 +58,7 @@ $debates = db::fetchAll("select d.*, count(o.idx) from debates d left join opini
                     <span>제목</span>
                     <span>등록일</span>
                     <span style="text-align:center;">의견수</span>
-                    <?= $user->is_admin == 1 ? "<span>관리</span>" : "" ?>
+                    <?= $user->admin == 'admin' ? "<span>관리</span>" : "" ?>
                 </div>
 
                 <!-- 게시글 목록 (10개씩 p1~p5) -->

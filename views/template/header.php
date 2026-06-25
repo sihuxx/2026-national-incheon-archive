@@ -14,6 +14,7 @@
 <body>
   <?php
   token();
+  userDelete();
   $user = ss();
   ?>
 
@@ -46,7 +47,7 @@
             </ul>
           </li>
           <li><a href="#">마이페이지</a></li>
-          <?php if ($user->is_admin == 1) { ?>
+          <?php if (!empty($user) && $user->type == 'admin') { ?>
             <li><a href="/userAdmin">관리자</a>
               <ul class="submenu">
                 <li><a href="/userAdmin">회원 관리</a></li>
