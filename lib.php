@@ -37,7 +37,7 @@ function token()
 function userDelete()
 {
     $session = ss();
-    if (isset($session)) {
+    if (!empty($session)) {
         $user = db::fetch("select * from users where idx = '$session->idx'");
         if (!$user) {
             session_destroy();

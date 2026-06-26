@@ -36,10 +36,10 @@ get("/inquire/{idx}", function ($idx) {
 get("/profile/{idx}", function ($idx) {
     views("profile", ["idx" => $idx]);
 });
-get("/userAdmin", function() {
+get("/userAdmin", function () {
     views("admin/user");
 });
-get("/inquireAnswer", function() {
+get("/inquireAnswer", function () {
     views("admin/inquire");
 });
 post("/signup", function () {
@@ -270,13 +270,18 @@ post("/blockCancel", function () {
     db::exec("delete from blocks where user_idx = '$user->idx' and target_user_idx = '$target_user_idx'");
     move("/profile/$target_user_idx", "$target_user 님의 차단이 해제되었습니다.");
 });
-post("/userUpgrade", function() {
+post("/userUpgrade", function () {
     extract($_POST);
     db::exec("update users set type = '$type' where idx = '$user_idx'");
     move("/userAdmin", "권한 변경 성공");
 });
-post("/userDelete", function() {
+post("/userDelete", function () {
     extract($_POST);
     db::exec("delete from users where idx = '$user_idx'");
     move("/userAdmin", "유저 탈퇴 처리 성공");
+});
+post("/adminAnswer", function () {
+    extract($_POST);
+    db::exec("update inquires set answer = '$answer' where idx = '$inquire_idx'");
+    move("/inquireAnswer", "관리자 답변 성공");
 });

@@ -1,7 +1,7 @@
 <?php
 $user = ss();
 $inquire = db::fetch("select i.*, u.id, u.profile from inquires i inner join users u on i.user_idx = u.idx where i.idx = '$idx'");
-$comments = db::fetchAll("select i.*, u.id, u.profile, u.idx user_idx, u.admin from inquire_comments i inner join users u on i.user_idx = u.idx where i.inquire_idx = '$idx' order by u.admin desc, i.date desc");
+$comments = db::fetchAll("select i.*, u.id, u.profile, u.idx user_idx, u.type from inquire_comments i inner join users u on i.user_idx = u.idx where i.inquire_idx = '$idx' order by u.type desc, i.date desc");
 ?>
 
 <main class="page">
@@ -51,7 +51,7 @@ $comments = db::fetchAll("select i.*, u.id, u.profile, u.idx user_idx, u.admin f
                 alt="송도주민 프로필 사진" title="송도주민" onclick="location.href='/profile/<?= $comment->user_idx ?>'">
               <div>
                 <div class="comment__head">
-                  <span class="comment__id" onclick="location.href='/profile/<?= $comment->user_idx ?>'"><?= $comment->admin == 'admin' ? "<span class='admin-tag'>관리자</span>" : "" ?><?= $comment->id ?></span>
+                  <span class="comment__id" onclick="location.href='/profile/<?= $comment->user_idx ?>'"><?= $comment->type == 'admin' ? "<span class='admin-tag'>관리자</span>" : "" ?><?= $comment->id ?></span>
                   <span class="comment__date"><?= $comment->date ?></span>
                 </div>
                 <div class="comment-content">

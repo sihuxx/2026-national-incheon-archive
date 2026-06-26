@@ -55,6 +55,12 @@
               </ul>
             </li>
           <?php } ?>
+          <?php if (!empty($user) && $user->type == 'post') { ?>
+            <li><a href="/postAdmin">게시판 회원 관리</a></li>
+          <?php } ?>
+          <?php if (!empty($user) && $user->type == 'debate') { ?>
+            <li><a href="/debateAdmin">토론 회원 관리</a></li>
+          <?php } ?>
         </ul>
       </nav>
       <div class="header__actions">

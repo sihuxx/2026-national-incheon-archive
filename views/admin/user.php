@@ -1,7 +1,6 @@
 <?php
-$user = ss();
+if (ss()->type != 'admin') back("관리자만 접근 할 수 있는 페이지입니다");
 $users = db::fetchAll("select * from users where type != 'admin' order by date desc");
-if ($user->type != 'admin') back("관리자만 접근 할 수 있는 페이지입니다");
 
 ?>
 
