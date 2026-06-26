@@ -23,6 +23,7 @@ if ($sort == "like-desc") $order = "like_count desc";
 if ($sort == "like-asc") $order = "like_count asc";
 
 $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left join likes l on p.idx = l.post_idx $where group by p.idx order by $order limit $start, $limit");
+$is_banned = db::fetch("select * from bans where user_idx = '$user->idx'");
 ?>
 
 <main class="page">
@@ -40,7 +41,15 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
             <div class="board__data">
 
                 <!-- 툴바: 결과 수 + 정렬 셀렉트 -->
-                <button class="post-add-btn" onclick="<?= $user ? "document.querySelector('.popup').style.display = 'flex'" : "alert('로그인한 회원만 이용 가능합니다')" ?>">등록</button>
+                <button class="post-add-btn" onclick="<?php
+                if(!$user) {
+                    echo "alert('로그인한 회원만 이용 가능합니다')";
+                } else if ($is_banned) {
+                    echo "alert('해당 서비스는 이용금지 상태입니다. $is_banned->date 부터 활동 가능합니다.')";
+                } else {
+                     echo "document.querySelector('.popup').style.display = 'flex'";
+                }
+                ?>">등록</button>
                 <div class="board__toolbar">
                     <p class="board__count">총 <b><?= $total ?></b>개의 게시글</p>
                     <div class="search-box">

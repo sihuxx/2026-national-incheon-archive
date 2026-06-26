@@ -883,3 +883,229 @@
 .btn-admin--primary:hover {
   background: var(--green-700); border-color: var(--green-700);
 }
+
+.admin { padding: 56px 0 96px; }
+
+.admin-head {
+  text-align: left; margin-bottom: 24px;
+}
+.admin-head .eyebrow {
+  display: inline-block; color: var(--green-700);
+  font-weight: 700; font-size: 13px;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.admin-head h2 {
+  font-size: 32px; font-weight: 800; color: var(--green-900);
+  letter-spacing: -0.02em; margin: 10px 0 8px;
+}
+.admin-head p {
+  color: var(--gray-700); font-size: 15px;
+}
+
+.admin__toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.admin__count {
+  font-size: 15px; color: var(--gray-700);
+}
+.admin__count b { color: var(--green-700); font-weight: 800; }
+
+
+/* =========================================================
+   회원 리스트
+   ========================================================= */
+.user-list {
+  border-top: 2px solid var(--green-900);
+}
+.user-item {
+  display: flex; align-items: center; gap: 20px;
+  padding: 22px 16px;
+  border-bottom: 1px solid var(--gray-200);
+  transition: background var(--t-fast);
+}
+.user-item:hover { background: var(--green-100); }
+
+/* 아바타 */
+.user-item__avatar-link { flex: none; }
+.user-item__avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  object-fit: cover; display: block;
+  border: 2px solid var(--green-100);
+  transition: border-color var(--t-fast);
+}
+.user-item__avatar:hover { border-color: var(--green-500); }
+
+/* 회원 정보 */
+.user-item__meta {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.user-item__name-row {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.user-item__name {
+  font-size: 16px; font-weight: 700; color: var(--green-900);
+}
+.user-item__id {
+  font-size: 14px; color: var(--gray-700);
+  transition: color var(--t-fast);
+}
+.user-item__id:hover { color: var(--green-700); }
+
+/* 이용금지 표식 (기본 숨김, 밴일 때만 표시) */
+.ban-badge {
+  display: none;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 999px;
+  background: #fef2f2; color: #b91c1c;
+  letter-spacing: .02em; white-space: nowrap;
+}
+.user-item[data-banned="true"] .ban-badge { display: inline-block; }
+
+/* 이용 가능 일자 (기본 숨김, 밴일 때만 표시) */
+.user-item__ban-until {
+  display: none;
+  font-size: 12px; color: #dc2626; font-weight: 600;
+}
+.user-item[data-banned="true"] .user-item__ban-until { display: inline-block; }
+
+/* 액션 버튼 영역 */
+.user-item__actions {
+  display: flex; gap: 8px; flex: none;
+}
+
+/* 버튼 공통 */
+.btn-ban, .btn-unban {
+  padding: 9px 18px; border-radius: 10px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; border: 1.5px solid transparent;
+  transition: background var(--t-fast), color var(--t-fast),
+              border-color var(--t-fast), transform var(--t-fast);
+  white-space: nowrap;
+}
+
+/* 이용금지 버튼 (빨강) */
+.btn-ban {
+  background: #fff; color: #b91c1c;
+  border-color: #fecaca;
+}
+.btn-ban:hover {
+  background: #dc2626; color: #fff;
+  border-color: #dc2626; transform: translateY(-2px);
+}
+
+/* 취소(=이용금지 해제) 버튼 (초록) */
+.btn-unban {
+  background: #fff; color: var(--green-700);
+  border-color: var(--green-300);
+}
+.btn-unban:hover {
+  background: var(--green-500); color: #fff;
+  border-color: var(--green-500); transform: translateY(-2px);
+}
+
+/* ----- data-banned 별 버튼 표시 규칙 ----- */
+/* 일반(false): 이용금지 버튼만 / 취소 버튼 숨김 */
+.user-item[data-banned="false"] .btn-unban { display: none; }
+/* 밴(true): 취소 버튼만 / 이용금지 버튼 숨김 */
+.user-item[data-banned="true"]  .btn-ban   { display: none; }
+
+
+/* =========================================================
+   이용금지 기간 설정 모달
+   ========================================================= */
+.ban-modal {
+  position: fixed; inset: 0;
+  background: rgba(15, 61, 46, .45);
+  display: none;
+  justify-content: center; align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+/* JS에서 .ban-modal--show 추가 시 표시 */
+.ban-modal--show {
+  display: flex;
+  animation: modalFadeIn .25s ease;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.ban-modal__panel {
+  background: #fff; border-radius: 20px;
+  width: 100%; max-width: 440px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
+  animation: modalSlideUp .3s ease;
+}
+@keyframes modalSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.ban-modal__head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; margin-bottom: 16px;
+}
+.ban-modal__title {
+  font-size: 19px; font-weight: 800; color: var(--green-900);
+  letter-spacing: -0.01em; line-height: 1.4;
+}
+.ban-modal__close {
+  flex: none;
+  width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: var(--gray-200); cursor: pointer; border: none;
+  transition: background var(--t-fast);
+}
+.ban-modal__close:hover { background: var(--green-100); }
+.ban-modal__close svg {
+  width: 18px; height: 18px; stroke: var(--gray-700);
+}
+
+.ban-modal__desc {
+  font-size: 14px; color: var(--gray-700); line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.ban-modal__field {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 28px;
+}
+.ban-modal__label {
+  font-size: 13px; font-weight: 700; color: var(--green-900);
+}
+.ban-modal__select {
+  width: 100%; padding: 13px 16px;
+  border: 1.5px solid var(--gray-200); border-radius: 12px;
+  font-size: 15px; color: var(--ink);
+  font-family: inherit; cursor: pointer;
+  outline: none; transition: border-color var(--t-fast);
+  background: #fff;
+}
+.ban-modal__select:focus { border-color: var(--green-500); }
+
+.ban-modal__actions {
+  display: flex; justify-content: flex-end; gap: 10px;
+}
+.btn-ghost {
+  background: #fff; color: var(--gray-700);
+  border: 1.5px solid var(--gray-200);
+  padding: 11px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background var(--t-fast);
+}
+.btn-ghost:hover { background: var(--gray-200); }
+
+.btn-ban-confirm {
+  background: #dc2626; color: #fff;
+  border: 1.5px solid #dc2626;
+  padding: 11px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.btn-ban-confirm:hover { background: #b91c1c; border-color: #b91c1c; }
+

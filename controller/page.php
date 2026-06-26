@@ -36,6 +36,12 @@ get("/inquire/{idx}", function ($idx) {
 get("/profile/{idx}", function ($idx) {
     views("profile", ["idx" => $idx]);
 });
+get("/postAdmin", function () {
+    views("admin/postAdmin");
+});
+get("/postAdmin", function () {
+    views("admin/postAdmin");
+});
 get("/userAdmin", function () {
     views("admin/user");
 });
@@ -284,4 +290,15 @@ post("/adminAnswer", function () {
     extract($_POST);
     db::exec("update inquires set answer = '$answer' where idx = '$inquire_idx'");
     move("/inquireAnswer", "관리자 답변 성공");
+});
+post('/ban', function () {
+    extract($_POST);
+    $date = date("Y-m-d", strtotime("+$days days"));
+    db::exec("insert into bans(user_idx, date) values ('$user_idx', '$date')");
+    move("/postAdmin", "이용 금지 처리되었습니다");
+});
+post("/banCancel", function() {
+    extract($_POST);
+    db::exec("delete from bans where user_idx = '$user_idx'");
+    move("/postAdmin", "이용 금지 취소되었습니다");
 });
