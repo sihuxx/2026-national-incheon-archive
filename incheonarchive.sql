@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- 생성 시간: 26-06-26 13:54
+-- 생성 시간: 26-06-27 16:09
 -- 서버 버전: 10.4.32-MariaDB
 -- PHP 버전: 8.2.12
 
@@ -93,7 +93,7 @@ CREATE TABLE `debates` (
   `idx` int(11) NOT NULL,
   `title` varchar(400) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `result` int(11) NOT NULL,
+  `result` int(11) DEFAULT NULL,
   `user_idx` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -102,10 +102,11 @@ CREATE TABLE `debates` (
 --
 
 INSERT INTO `debates` (`idx`, `title`, `date`, `result`, `user_idx`) VALUES
-(1, '엉덩이는 두개인가 하나인가', '2026-06-22 11:49:45', 0, 2),
-(2, '꺅두기는 성이 꺅이고 이름이 두기이다', '2026-06-23 09:02:53', 0, 2),
-(5, '똥은 왜 이름이 똥인가', '2026-06-26 11:14:39', 0, 5),
-(6, '닭이 먼저인가 알이 먼저인가 미노타우르스가 먼저인가', '2026-06-26 11:15:19', 0, 4);
+(1, '엉덩이는 두개인가 하나인가', '2026-06-22 11:49:45', NULL, 2),
+(2, '꺅두기는 성이 꺅이고 이름이 두기이다', '2026-06-23 09:02:53', NULL, 2),
+(5, '똥은 왜 이름이 똥인가', '2026-06-26 11:14:39', NULL, 5),
+(6, '닭이 먼저인가 알이 먼저인가 미노타우르스가 먼저인가', '2026-06-26 11:15:19', NULL, 4),
+(7, '졸릴 땐 자야하는가', '2026-06-27 02:06:11', NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -128,7 +129,9 @@ CREATE TABLE `debate_opinions` (
 INSERT INTO `debate_opinions` (`idx`, `user_idx`, `debate_idx`, `content`, `date`) VALUES
 (1, 2, 1, '당연히 두개죠...ㄷㄷ', '2026-06-23 10:51:48'),
 (3, 2, 1, '음...', '2026-06-23 11:20:50'),
-(10, 2, 1, 'ㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ', '2026-06-23 11:29:28');
+(10, 2, 1, 'ㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ', '2026-06-23 11:29:28'),
+(13, 3, 7, '당연하지', '2026-06-27 02:15:05'),
+(14, 4, 6, '닭이지 ㅋㅋ', '2026-06-27 13:41:51');
 
 -- --------------------------------------------------------
 
@@ -173,7 +176,8 @@ CREATE TABLE `inquires` (
 
 INSERT INTO `inquires` (`idx`, `title`, `content`, `date`, `img`, `public`, `user_idx`, `answer`) VALUES
 (1, '인천 아카이브 이름 구려요', 'ㅈㄱㄴ', '2026-06-24 18:03:06', '/asset/inquires/구치파치.webp', 1, 2, '저도 압니다...'),
-(2, '비공개 게시글이 있으면', 'be 공개 게시글도 있나 ㅋㅋ', '2026-06-24 18:03:32', '', 0, 2, NULL);
+(2, '비공개 게시글이 있으면', 'be 공개 게시글도 있나 ㅋㅋ', '2026-06-24 18:03:32', '', 0, 2, NULL),
+(3, '문의사항 입니다!!!!', 'ㅁㅇㅅㅎ!', '2026-06-27 22:58:39', '/asset/inquires/꺅두기.png', 1, 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -236,7 +240,9 @@ CREATE TABLE `opinions` (
 
 INSERT INTO `opinions` (`idx`, `user_idx`, `debate_idx`, `type`, `date`) VALUES
 (1, 2, 1, 1, '2026-06-23 10:53:20'),
-(6, 2, 2, 1, '2026-06-23 10:29:19');
+(6, 2, 2, 1, '2026-06-23 10:29:19'),
+(14, 3, 7, 1, '2026-06-27 02:06:15'),
+(15, 4, 6, 1, '2026-06-27 13:41:48');
 
 -- --------------------------------------------------------
 
@@ -287,8 +293,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`idx`, `id`, `pw`, `name`, `profile`, `type`, `login_token`, `date`) VALUES
 (2, 'admin', '1234', '관리자', '/asset/profile/귀여운 두기.tmp', 'admin', NULL, '2026-06-25 18:57:32'),
-(3, 'sihu', '1234', '시후', '/asset/profile/꺅두기.png', 'post', NULL, '2026-06-25 19:50:16'),
-(4, 'user1', '1234', '유저1', '/asset/profile/구치파치.webp', 'general', '1be7da7e0405ba501eaa5c7d4ae9666d91e0c53e84dd2f72c87950b91d6c0f8b', '2026-06-26 19:40:30'),
+(3, 'sihu', '1234', '시후', '/asset/profile/꺅두기.png', 'post', 'c8c3446254d3e99bf18aed0f6689525b80b64ac176f98c58582c802ddbe60096', '2026-06-25 19:50:16'),
+(4, 'user1', '1234', '유저1', '/asset/profile/구치파치.webp', 'general', '9324622da8e44a683a07014309faf6361cd2270f07740111b3fd1c94d68f95db', '2026-06-26 19:40:30'),
 (5, 'user2', '1234', '유저2', '/asset/profile/대회.png', 'debate', '782141672652809ffa8cfcaac77e04ed018c17c2462b94030e3eb5df0f59c2b5', '2026-06-26 19:47:35');
 
 --
@@ -421,13 +427,13 @@ ALTER TABLE `comments_likes`
 -- 테이블의 AUTO_INCREMENT `debates`
 --
 ALTER TABLE `debates`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- 테이블의 AUTO_INCREMENT `debate_opinions`
 --
 ALTER TABLE `debate_opinions`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 테이블의 AUTO_INCREMENT `follows`
@@ -439,7 +445,7 @@ ALTER TABLE `follows`
 -- 테이블의 AUTO_INCREMENT `inquires`
 --
 ALTER TABLE `inquires`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 테이블의 AUTO_INCREMENT `inquire_comments`
@@ -457,7 +463,7 @@ ALTER TABLE `likes`
 -- 테이블의 AUTO_INCREMENT `opinions`
 --
 ALTER TABLE `opinions`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- 테이블의 AUTO_INCREMENT `posts`
